@@ -29,7 +29,7 @@ S3_BUCKET_PATH = os.getenv("S3_BUCKET_PATH")
 
 spark = (
     SparkSession.builder
-    .appName("csvToS3")
+    .appName("fileToS3")
     .config("spark.hadoop.fs.s3a.access.key", AWS_ACCESS_KEY)
     .config("spark.hadoop.fs.s3a.secret.key", AWS_SECRET_KEY)
     .config("mapreduce.fileoutputcommitter.marksuccessfuljobs", "false")
@@ -64,8 +64,3 @@ df.write \
 print("Load finished!")
 
 spark.stop()
-
-
-
-# df = spark.read.parquet(S3_BUCKET_PATH)
-# df.show(10)

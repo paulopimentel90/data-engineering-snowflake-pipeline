@@ -1,0 +1,8 @@
+-- CREATE A BRONZE TABLE
+CREATE TABLE IF NOT EXISTS BANK_TRANSACTIONS_BRONZE
+(
+raw_data VARIANT,
+filename STRING,
+created_at timestamp
+);
+
