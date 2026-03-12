@@ -161,22 +161,50 @@ Examples of metrics:
 # Project Structure
 
 ```
-banking-data-pipeline/
+data-engineering-snowflake-pipeline/
 
-├── ingestion
-│   └── ingest_transactions.py
-├── snowflake
-│   ├── stages.sql
-│   ├── bronze_tables.sql
-│   ├── silver_tables.sql
-│   └── gold_tables.sql
-│
+├── README.md
 ├── data
-│   └── transactions.csv
-│
-├── .env
-│
-└── README.md
+│   └── bank_transactions_data_2_augmented_clean_2.csv
+├── ingestion
+│   └── ingest_transactions.py
+├── libs
+│   ├── aws-java-sdk-bundle-1.12.262.jar
+│   └── hadoop-aws-3.3.4.jar
+└── snowflake
+    ├── DDL
+    │   ├── bronze
+    │   │   └── bronze_table.sql
+    │   ├── gold
+    │   │   ├── dim_calendar.sql
+    │   │   ├── dim_channel.sql
+    │   │   ├── dim_customer.sql
+    │   │   ├── dim_device.sql
+    │   │   ├── dim_location.sql
+    │   │   ├── dim_merchant.sql
+    │   │   └── fact_transactions.sql
+    │   └── silver
+    │       └── silver_table.sql
+    ├── file_format
+    │   └── parquet_format.sql
+    ├── procedures
+    │   ├── bronze
+    │   │   └── bronze_transactions_bank.sql
+    │   ├── gold
+    │   │   ├── dim_calendar.sql
+    │   │   ├── dim_channel.sql
+    │   │   ├── dim_customer.sql
+    │   │   ├── dim_device.sql
+    │   │   ├── dim_location.sql
+    │   │   ├── dim_merchant.sql
+    │   │   ├── fact_transactions.sql
+    │   │   └── gold_tables.sql
+    │   ├── main_procedure.sql
+    │   ├── main_procedure_layers.sql
+    │   └── silver
+    │       └── silver_transactions_bank.sql
+    └── tasks
+        └── task_dm_bank_transactions.sql
 ```
 
 ---
