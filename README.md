@@ -164,10 +164,6 @@ banking-data-pipeline/
 
 ├── ingestion
 │   └── ingest_transactions.py
-│
-├── spark_jobs
-│   └── transform_transactions.py
-│
 ├── snowflake
 │   ├── stages.sql
 │   ├── bronze_tables.sql
