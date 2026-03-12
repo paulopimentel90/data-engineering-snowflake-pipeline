@@ -5,4 +5,3 @@ raw_data VARIANT,
 filename STRING,
 created_at timestamp
 );
-
