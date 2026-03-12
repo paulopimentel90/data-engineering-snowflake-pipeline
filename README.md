@@ -99,6 +99,7 @@ Aggregated analytics data
 ### 1️⃣ Data Ingestion
 
 The dataset is downloaded from Kaggle in **CSV format**.
+You can get this data using https://www.kaggle.com/datasets/thuandao/bank-transactions-dataset-for-fraud-detection
 
 A **PySpark script** reads the file and transforms the data.
 
