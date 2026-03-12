@@ -240,12 +240,9 @@ This project can be extended with more advanced data engineering features.
 Possible improvements:
 
 * Apache Airflow orchestration
-* Automated ingestion pipelines
 * Data quality checks
 * CI/CD pipelines
-* Infrastructure as Code (Terraform)
-* Streaming ingestion with Kafka
-* Real-time fraud detection
+* Streaming ingestion with Snowpipe
 
 ---
 
