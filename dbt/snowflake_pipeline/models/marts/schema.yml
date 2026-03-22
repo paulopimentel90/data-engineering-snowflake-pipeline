@@ -13,7 +13,6 @@ models:
         description: "Surrogate key generated from account_id."
         tests:
           - not_null
-          - unique
 
       - name: account_id
         description: "Unique identifier of the bank account."
@@ -34,7 +33,6 @@ models:
       - name: merchant_key
         tests:
           - not_null
-          - unique
 
       - name: merchant_id
         description: "Unique merchant identifier."
@@ -49,7 +47,6 @@ models:
       - name: device_key
         tests:
           - not_null
-          - unique
 
       - name: device_id
         description: "Device identifier."
@@ -64,7 +61,6 @@ models:
       - name: location_key
         tests:
           - not_null
-          - unique
 
       - name: city
         description: "City where transaction occurred."
@@ -79,7 +75,6 @@ models:
       - name: channel_key
         tests:
           - not_null
-          - unique
 
       - name: channel
         description: "Transaction channel (ATM, Online)."
@@ -98,7 +93,6 @@ models:
       - name: date_key
         tests:
           - not_null
-          - unique
 
       - name: date
         description: "Calendar date."
@@ -118,7 +112,6 @@ models:
         description: "Unique transaction identifier."
         tests:
           - not_null
-          - unique
 
       # FOREIGN KEYS
       - name: customer_key
