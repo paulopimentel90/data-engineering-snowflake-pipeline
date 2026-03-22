@@ -29,7 +29,6 @@ jobs:
       - name: Setup dbt profile
         run: |
           mkdir -p ~/.dbt
-          # Usar printf evita newline extra
           printf "%s" "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
 
       # 4.1️⃣ Limpar cache do dbt
@@ -46,11 +45,17 @@ jobs:
         run: dbt debug
         working-directory: dbt/snowflake_pipeline
 
-      - name: Run dbt tests
-        run: dbt test
+      # 6️⃣ Build dos modelos antes dos testes
+      - name: Run dbt models
+        run: dbt run --target dev
         working-directory: dbt/snowflake_pipeline
 
-      # 🚀 CD: deploy
+      # 7️⃣ Rodar os testes após os modelos existirem
+      - name: Run dbt tests
+        run: dbt test --target dev
+        working-directory: dbt/snowflake_pipeline
+
+      # 🚀 CD: deploy final (opcional, se você quiser separar da CI)
       - name: Deploy to DEV
         run: dbt run --target dev
         working-directory: dbt/snowflake_pipeline
