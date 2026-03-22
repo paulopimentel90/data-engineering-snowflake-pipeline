@@ -39,4 +39,4 @@ jobs:
 
       # 🚀 CD (deploy)
       - name: Deploy to PROD
-        run: dbt run --target prod
+        run: dbt run --target dev
