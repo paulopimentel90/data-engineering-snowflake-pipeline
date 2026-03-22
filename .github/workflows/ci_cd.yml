@@ -10,28 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Puxar o código
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # 2️⃣ Configurar Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
+      # 3️⃣ Instalar dependências
       - name: Install dependencies
         run: |
           pip install dbt-snowflake
 
+      # 4️⃣ Configurar profile do dbt
       - name: Setup dbt profile
         run: |
           mkdir -p ~/.dbt
-          echo "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
+          printf "%s" "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
 
+      # 5️⃣ Instalar dependências do dbt
       - name: Run dbt deps
         run: dbt deps
         working-directory: dbt/snowflake_pipeline
 
-      # 🔥 CI (validação)
+      # 🔥 CI: validação do projeto
       - name: Run dbt debug
         run: dbt debug
         working-directory: dbt/snowflake_pipeline
@@ -40,7 +45,7 @@ jobs:
         run: dbt test
         working-directory: dbt/snowflake_pipeline
 
-      # 🚀 CD (deploy)
+      # 🚀 CD: deploy
       - name: Deploy to DEV
         run: dbt run --target dev
         working-directory: dbt/snowflake_pipeline
