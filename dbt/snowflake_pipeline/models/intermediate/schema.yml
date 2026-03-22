@@ -43,7 +43,7 @@ models:
         description: "Transaction channel (ATM / Online)."
         tests:
           - accepted_values:
-              values: ['ATM', 'Online']
+              values: ['ATM', 'Online', 'Branch']
 
       - name: customerage
         description: "Age of the customer at the time of the transaction."
