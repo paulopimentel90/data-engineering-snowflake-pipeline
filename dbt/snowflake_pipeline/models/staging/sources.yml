@@ -13,4 +13,4 @@ sources:
           - name: filename
             description: "Source file name from S3."
           - name: created_at
-            description: "Ingestion timestamp to control data freshness."
+            description: "Ingestion timestamp to control data freshnesss."
