@@ -75,6 +75,9 @@ models:
       - name: channel_key
         tests:
           - not_null
+  
+      - name: channel
+        description: "Transaction channel (ATM / Online)."
 
 
   # =========================
