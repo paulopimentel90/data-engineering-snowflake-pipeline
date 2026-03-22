@@ -9,7 +9,8 @@ with dates as (
 )
 
 select
-    {{ dbt_utils.generate_surrogate_key(['date']) }} as date_key,
+    -- {{ dbt_utils.generate_surrogate_key(['date']) }} as date_key,
+    to_number(to_char({{ dbt_utils.generate_surrogate_key(['date']) }}, 'YYYYMMDD')) as date_key,
     date,
     year(date) as year,
     month(date) as month_number,

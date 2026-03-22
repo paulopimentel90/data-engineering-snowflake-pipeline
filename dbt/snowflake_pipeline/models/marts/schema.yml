@@ -86,7 +86,7 @@ models:
         tests:
           - accepted_values:
               arguments:
-                values: ['ATM', 'Online']
+                values: ['ATM', 'Online', 'Branch']
 
   # =========================
   # DIM CALENDAR
@@ -156,7 +156,7 @@ models:
               to: ref('dim_channel')
               field: channel_key
 
-      - name: date_key
+      - name: date_id
         description: "Foreign key to dim_calendar (YYYYMMDD format)."
         tests:
           - relationships:
