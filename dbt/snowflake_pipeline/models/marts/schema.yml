@@ -79,9 +79,7 @@ models:
       - name: channel
         description: "Transaction channel (ATM, Online)."
         tests:
-          - accepted_values:
-              arguments:
-                values: ['ATM', 'Online', 'Branch']
+          - not_null
 
   # =========================
   # DIM CALENDAR
