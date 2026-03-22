@@ -1,52 +1,35 @@
 {{ config(
-    materialized='incremental',
-    unique_key='transactionid'
+    materialized='table'
 ) }}
 
 with base as (
-
     select *
     from {{ ref('int_transactions') }}
-
-    {% if is_incremental() %}
-        where created_at > (select max(created_at) from {{ this }})
-    {% endif %}
-
 ),
 
 customer as (
-
     select *
     from {{ ref('dim_customer') }}
-
 ),
 
 merchant as (
-
     select *
     from {{ ref('dim_merchant') }}
-
 ),
 
 device as (
-
     select *
     from {{ ref('dim_device') }}
-
 ),
 
 location as (
-
     select *
     from {{ ref('dim_location') }}
-
 ),
 
 channel as (
-
     select *
     from {{ ref('dim_channel') }}
-
 )
 
 select
