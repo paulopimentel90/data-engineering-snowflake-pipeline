@@ -114,7 +114,7 @@ models:
     columns:
 
       # PRIMARY KEY
-      - name: transaction_id
+      - name: transactionid
         description: "Unique transaction identifier."
         tests:
           - not_null
@@ -156,7 +156,7 @@ models:
               to: ref('dim_channel')
               field: channel_key
 
-      - name: date_id
+      - name: date_key
         description: "Foreign key to dim_calendar (YYYYMMDD format)."
         tests:
           - relationships:
@@ -164,14 +164,14 @@ models:
               field: date_key
 
       # METRICS
-      - name: transaction_amount
+      - name: transactionamount
         description: "Transaction amount."
 
-      - name: transaction_duration
+      - name: transactionduration
         description: "Transaction duration in seconds."
 
-      - name: login_attempts
+      - name: loginattempts
         description: "Number of login attempts."
 
-      - name: account_balance
+      - name: accountbalance
         description: "Account balance at the time of transaction."

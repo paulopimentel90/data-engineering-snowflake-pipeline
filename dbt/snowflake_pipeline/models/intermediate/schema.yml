@@ -6,37 +6,37 @@ models:
 
     columns:
 
-      - name: transaction_id
+      - name: transactionid
         description: "Unique identifier for the transaction."
         tests:
           - not_null
 
-      - name: account_id
+      - name: accountid
         description: "Unique identifier for the bank account associated with the transaction."
         tests:
           - not_null
 
-      - name: transaction_amount
+      - name: transactionamount
         description: "Amount of the transaction."
         tests:
           - not_null
 
-      - name: transaction_date
+      - name: transactiondate
         description: "Date and time of the transaction."
 
-      - name: transaction_type
+      - name: transactiontype
         description: "Type of transaction (Debit/Credit)."
 
       - name: location
         description: "City where the transaction happened."
 
-      - name: device_id
+      - name: deviceid
         description: "Identifier of the device used for the transaction."
 
-      - name: ip_address
+      - name: ipaddress
         description: "IP address of the transaction."
 
-      - name: merchant_id
+      - name: merchantid
         description: "Merchant identifier for the transaction."
 
       - name: channel
@@ -45,19 +45,19 @@ models:
           - accepted_values:
               values: ['ATM', 'Online']
 
-      - name: customer_age
+      - name: customerage
         description: "Age of the customer at the time of the transaction."
 
-      - name: customer_occupation
+      - name: customeroccupation
         description: "Occupation of the customer."
 
-      - name: transaction_duration
+      - name: transactionduration
         description: "Duration of the transaction in seconds."
 
-      - name: login_attempts
+      - name: loginattempts
         description: "Number of login attempts made by the customer."
 
-      - name: account_balance
+      - name: accountbalance
         description: "Balance of the bank account."
 
       - name: filename
