@@ -1,3 +1,3 @@
 select *
 from {{ ref('stg_bank_transactions') }}
-where transaction_amount > 0;
+where AccountBalance > 0

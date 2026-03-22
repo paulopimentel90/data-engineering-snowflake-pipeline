@@ -19,4 +19,4 @@ raw_data:"TransactionID"::string as TransactionID,
 raw_data:"TransactionType"::string as TransactionType,
 filename,
 created_at
-from {{ source('raw', 'BANK_TRANSACTIONS') }};
+from {{ source('raw', 'BANK_TRANSACTIONS') }}

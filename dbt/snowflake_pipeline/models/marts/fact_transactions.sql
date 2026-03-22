@@ -1,6 +1,6 @@
 {{ config(
     materialized='incremental',
-    unique_key='transaction_id'
+    unique_key='transactionid'
 ) }}
 
 with base as (
@@ -50,7 +50,7 @@ channel as (
 )
 
 select
-    base.transaction_id,
+    base.transactionid,
 
     customer.customer_key,
     merchant.merchant_key,
@@ -58,26 +58,26 @@ select
     location.location_key,
     channel.channel_key,
 
-    to_number(to_char(base.transaction_date, 'YYYYMMDD')) as date_id,
+    to_number(to_char(base.transactiondate, 'YYYYMMDD')) as date_id,
 
-    base.transaction_amount,
-    base.transaction_duration,
-    base.login_attempts,
-    base.account_balance
+    base.transactionamount,
+    base.transactionduration,
+    base.loginattempts,
+    base.accountbalance
 
 from base
 
 join customer
-    on base.account_id = customer.account_id
+    on base.accountid = customer.accountid
 
 join merchant
-    on base.merchant_id = merchant.merchant_id
+    on base.merchantid = merchant.merchantid
 
 join device
-    on base.device_id = device.device_id
+    on base.deviceid = device.deviceid
 
 join location
-    on base.location = location.city
+    on base.location = location.location
 
 join channel
     on base.channel = channel.channel
