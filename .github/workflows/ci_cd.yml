@@ -29,14 +29,18 @@ jobs:
 
       - name: Run dbt deps
         run: dbt deps
+        working-directory: dbt/snowflake_pipeline
 
       # 🔥 CI (validação)
       - name: Run dbt debug
         run: dbt debug
+        working-directory: dbt/snowflake_pipeline
 
       - name: Run dbt tests
         run: dbt test
+        working-directory: dbt/snowflake_pipeline
 
       # 🚀 CD (deploy)
-      - name: Deploy to PROD
+      - name: Deploy to DEV
         run: dbt run --target dev
+        working-directory: dbt/snowflake_pipeline
