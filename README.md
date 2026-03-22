@@ -1,253 +1,263 @@
-# Banking Transactions Data Pipeline
+# 🚀 End-to-End Data Engineering Pipeline (AWS S3 + Snowflake + dbt)
 
-This project is an **end-to-end data engineering pipeline** built to simulate a modern data platform.
+## 📌 Overview
 
-The goal is to ingest banking transaction data, store it in an AWS S3 data lake, and process the data using a **Medallion Architecture (Bronze, Silver, Gold)**.
+This project implements an **end-to-end data engineering pipeline** designed to simulate a modern cloud-based data platform.
 
-This project demonstrates a real-world data engineering workflow using **PySpark, AWS S3, and Snowflake**.
+The pipeline ingests banking transaction data from Kaggle, stores it in a data lake, and transforms it into an **analytics-ready dimensional model (star schema)** using **dbt**.
+
+It demonstrates a real-world data engineering workflow using:
+
+* **PySpark** for ingestion
+* **AWS S3** as a data lake
+* **Snowflake** as a data warehouse
+* **dbt** for transformation and modeling
+
+The architecture follows the **Medallion pattern (Bronze → Silver → Gold)**.
 
 ---
 
-# Data Source
+## 📊 Data Source
 
-The dataset was downloaded from **Kaggle** and contains simulated banking transaction data.
+Dataset from Kaggle:
+https://www.kaggle.com/datasets/thuandao/bank-transactions-dataset-for-fraud-detection
 
-Each record represents a financial transaction made by a customer.
-
-The dataset contains information about:
+The dataset contains simulated banking transactions, including:
 
 * transaction details
 * customer information
-* device used in the transaction
-* IP address
-* merchant information
-* login attempts
-* account balance
+* device and IP data
+* merchant data
+* login attempts and balances
 
-This type of dataset can be used to simulate **fraud detection pipelines, financial analytics, and customer behavior analysis**.
+### 📌 Use Cases
 
----
+This dataset can be used for:
 
-# Dataset Schema
-
-The dataset contains the following columns:
-
-| Column              | Description                            |
-| ------------------- | -------------------------------------- |
-| TransactionID       | Unique identifier for the transaction  |
-| AccountID           | Unique identifier for the bank account |
-| TransactionAmount   | Amount of the transaction              |
-| TransactionDate     | Date and time of the transaction       |
-| TransactionType     | Type of transaction (Debit/Credit)     |
-| Location            | City where the transaction happened    |
-| DeviceID            | Identifier of the device used          |
-| IP Address          | IP address of the transaction          |
-| MerchantID          | Merchant identifier                    |
-| Channel             | Transaction channel (ATM / Online)     |
-| CustomerAge         | Age of the customer                    |
-| CustomerOccupation  | Occupation of the customer             |
-| TransactionDuration | Duration of the transaction in seconds |
-| LoginAttempts       | Number of login attempts               |
-| AccountBalance      | Current balance of the account         |
+* fraud detection
+* financial analytics
+* customer behavior analysis
 
 ---
 
-# Sample Data
-
-| TransactionID | AccountID | TransactionAmount | TransactionDate | TransactionType | Location  | DeviceID | IP Address     | MerchantID | Channel | CustomerAge | CustomerOccupation | TransactionDuration | LoginAttempts | AccountBalance |
-| ------------- | --------- | ----------------- | --------------- | --------------- | --------- | -------- | -------------- | ---------- | ------- | ----------- | ------------------ | ------------------- | ------------- | -------------- |
-| TX000001      | AC00128   | 14.09             | 4/11/2023 16:29 | Debit           | San Diego | D000380  | 162.198.218.92 | M015       | ATM     | 70          | Doctor             | 81                  | 1             | 5112.21        |
-| TX000002      | AC00455   | 376.24            | 6/27/2023 16:44 | Debit           | Houston   | D000051  | 13.149.61.4    | M052       | ATM     | 68          | Doctor             | 141                 | 1             | 13758.91       |
-| TX000003      | AC00019   | 126.29            | 7/10/2023 18:16 | Debit           | Mesa      | D000235  | 215.97.143.157 | M009       | Online  | 19          | Student            | 56                  | 1             | 1122.35        |
-| TX000004      | AC00070   | 184.50            | 5/5/2023 16:32  | Debit           | Raleigh   | D000187  | 200.13.225.150 | M002       | Online  | 26          | Student            | 25                  | 1             | 8569.06        |
-
----
-
-# Project Architecture
-
-The pipeline follows a **modern cloud data architecture**.
+## 🏗️ Architecture
 
 ```
-Kaggle Dataset (CSV)
-        │
-        ▼
-PySpark Ingestion Script
-        │
-        ▼
-AWS S3 Data Lake (Parquet)
-        │
-        ▼
-Snowflake External Stage
-        │
-        ▼
-Bronze Layer
-Raw structured data
-        │
-        ▼
-Silver Layer
-Cleaned and normalized data
-        │
-        ▼
-Gold Layer
-Aggregated analytics data
+        +-------------+
+        |  Kaggle CSV |
+        +-------------+
+                |
+                v
+        +-------------+
+        |  PySpark    |
+        | (Ingestion) |
+        +-------------+
+                |
+                v
+        +-------------+
+        |   AWS S3    |
+        +-------------+
+                |
+                v
+        +----------------------+
+        |  Snowflake (RAW)     |
+        |  VARIANT (Parquet)   |
+        +----------------------+
+                |
+                v
+        +----------------------+
+        |        dbt           |
+        |  (Transformations)   |
+        +----------------------+
+                |
+                v
+        +----------------------+
+        |  Data Mart (GOLD)    |
+        |  Star Schema         |
+        +----------------------+
 ```
 
 ---
 
-# Data Pipeline Steps
+## 🔄 Data Pipeline Flow
 
-### 1️⃣ Data Ingestion
+### 1️⃣ Ingestion (PySpark)
 
-The dataset is downloaded from Kaggle in **CSV format**.
-You can get this data using https://www.kaggle.com/datasets/thuandao/bank-transactions-dataset-for-fraud-detection
-
-A **PySpark script** reads the file and transforms the data.
-
----
-
-### 2️⃣ Data Lake Storage
-
-The data is converted to **Parquet format** and uploaded to an **AWS S3 bucket**.
-
-Parquet is used because it is:
-
-* columnar
-* efficient for analytics
-* optimized for big data processing
+* Reads raw CSV data
+* Converts data to Parquet format
+* Uploads files to AWS S3
 
 ---
 
-### 3️⃣ Snowflake Integration
+### 2️⃣ Data Lake (S3)
 
-Snowflake reads the files stored in S3 using an **external stage**.
-
-This allows Snowflake to load the data directly from the data lake.
-
----
-
-### 4️⃣ Bronze Layer
-
-The Bronze layer stores **raw structured data** from the ingestion process.
-
-Minimal transformation is applied.
+* Stores data in columnar format (Parquet)
+* Optimized for analytical workloads
 
 ---
 
-### 5️⃣ Silver Layer
+### 3️⃣ Snowflake (Raw Layer - Bronze)
 
-The Silver layer contains **cleaned and structured data**.
-
-Typical transformations include:
-
-* fixing data types
-* removing null values
-* standardizing fields
-* removing duplicates
+* Data is loaded from S3
+* Stored as **VARIANT (semi-structured)**
+* No transformations applied
 
 ---
 
-### 6️⃣ Gold Layer
+### 4️⃣ Transformation Layer (dbt - Silver & Gold)
 
-The Gold layer contains **aggregated and analytics-ready data**.
+#### 🔹 Staging
 
-Examples of metrics:
+* Extracts fields from VARIANT
+* Applies type casting
 
-* total transactions
-* transaction amount per day
-* customer activity patterns
+#### 🔹 Intermediate
+
+* Cleans and filters data
+* Applies business rules
+
+#### 🔹 Marts (Gold)
+
+* Implements **star schema**
+* Creates:
+
+  * `fact_transactions`
+  * `dim_customer`
+  * `dim_merchant`
+  * `dim_device`
+  * `dim_location`
+  * `dim_channel`
+  * `dim_calendar`
 
 ---
 
-# Project Structure
+## 📊 Data Model
+
+### ⭐ Fact Table
+
+* `fact_transactions`
+
+### 📦 Dimension Tables
+
+* `dim_customer`
+* `dim_merchant`
+* `dim_device`
+* `dim_location`
+* `dim_channel`
+* `dim_calendar`
+
+---
+
+## 🧪 Data Quality
+
+Data quality is enforced using **dbt tests**:
+
+* `not_null`
+* `unique`
+* `relationships`
+* `accepted_values`
+* custom business rules
+
+---
+
+## ⚡ Incremental Processing
+
+The fact table is implemented as an **incremental model**, ensuring:
+
+* better performance
+* scalability
+* reduced Snowflake compute cost
+
+---
+
+## 📁 Project Structure
 
 ```
-data-engineering-snowflake-pipeline/
-
-├── README.md
-├── data
-│   └── bank_transactions_data_2_augmented_clean_2.csv
-├── ingestion
-│   └── ingest_transactions.py
-├── libs
-│   ├── aws-java-sdk-bundle-1.12.262.jar
-│   └── hadoop-aws-3.3.4.jar
-└── snowflake
-    ├── DDL
-    │   ├── bronze
-    │   │   └── bronze_table.sql
-    │   ├── gold
-    │   │   ├── dim_calendar.sql
-    │   │   ├── dim_channel.sql
-    │   │   ├── dim_customer.sql
-    │   │   ├── dim_device.sql
-    │   │   ├── dim_location.sql
-    │   │   ├── dim_merchant.sql
-    │   │   └── fact_transactions.sql
-    │   └── silver
-    │       └── silver_table.sql
-    ├── file_format
-    │   └── parquet_format.sql
-    ├── procedures
-    │   ├── bronze
-    │   │   └── bronze_transactions_bank.sql
-    │   ├── gold
-    │   │   ├── dim_calendar.sql
-    │   │   ├── dim_channel.sql
-    │   │   ├── dim_customer.sql
-    │   │   ├── dim_device.sql
-    │   │   ├── dim_location.sql
-    │   │   ├── dim_merchant.sql
-    │   │   ├── fact_transactions.sql
-    │   │   └── gold_tables.sql
-    │   ├── main_procedure.sql
-    │   ├── main_procedure_layers.sql
-    │   └── silver
-    │       └── silver_transactions_bank.sql
-    └── tasks
-        └── task_dm_bank_transactions.sql
+├── ingestion/              # PySpark ingestion
+├── snowflake/ingestion/    # Raw layer SQL (table + load)
+├── dbt/
+│   ├── models/
+│   │   ├── staging/
+│   │   ├── intermediate/
+│   │   └── marts/
+│   ├── macros/
+│   ├── tests/
+│   ├── dbt_project.yml
+│   └── packages.yml
 ```
 
 ---
 
-# Technologies Used
-
-This project uses modern data engineering tools.
+## ⚙️ Tech Stack
 
 * Python
 * PySpark
 * AWS S3
 * Snowflake
+* dbt
 * Parquet
-* dotenv (.env configuration)
 
 ---
 
-# Example Use Cases
+## 🚀 How to Run
 
-This dataset and pipeline can be used for:
+### 1. Install dependencies
 
-* financial transaction analytics
-* fraud detection systems
-* customer behavior analysis
-* banking activity monitoring
-
----
-
-# Future Improvements
-
-This project can be extended with more advanced data engineering features.
-
-Possible improvements:
-
-* Apache Airflow orchestration
-* Data quality checks
-* CI/CD pipelines
-* Streaming ingestion with Snowpipe
+```bash
+pip install -r requirements.txt
+dbt deps
+```
 
 ---
 
-# Project Goal
+### 2. Configure Snowflake
 
-The goal of this project is to demonstrate the implementation of a **modern data engineering pipeline** using cloud technologies and best practices.
+Configure your dbt profile:
 
-It simulates a real-world **banking analytics platform** built with scalable data engineering architecture.
+```
+~/.dbt/profiles.yml
+```
+
+---
+
+### 3. Run dbt
+
+```bash
+dbt run
+dbt test
+```
+
+---
+
+### 4. Generate documentation
+
+```bash
+dbt docs generate
+dbt docs serve
+```
+
+---
+
+## 💡 Key Design Decisions
+
+* Raw data stored as **VARIANT** for flexibility
+* Transformations centralized in **dbt (no stored procedures)**
+* Use of **surrogate keys** for dimensional modeling
+* Adoption of **medallion architecture**
+* Clear separation between ingestion and transformation
+
+---
+
+## 📈 Future Improvements
+
+* CI/CD with GitHub Actions
+* Orchestration with Airflow
+* Data quality monitoring & alerting
+* Integration with BI tools (Power BI / Looker)
+
+---
+
+## 👨‍💻 Author
+
+**Paulo Pimentel**
+Data Engineer | ETL | Snowflake | dbt | PySpark
