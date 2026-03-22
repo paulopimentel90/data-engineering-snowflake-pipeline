@@ -29,7 +29,12 @@ jobs:
       - name: Setup dbt profile
         run: |
           mkdir -p ~/.dbt
+          # Usar printf evita newline extra
           printf "%s" "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
+
+      # 4.1️⃣ Limpar cache do dbt
+      - name: Clean dbt target
+        run: rm -rf dbt/snowflake_pipeline/target
 
       # 5️⃣ Instalar dependências do dbt
       - name: Run dbt deps
