@@ -10,52 +10,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Puxar o código
+      # 1️⃣ Get code from repo
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2️⃣ Configurar Python
+      # 2️⃣ Python Configuration
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # 3️⃣ Instalar dependências
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: |
           pip install dbt-snowflake
 
-      # 4️⃣ Configurar profile do dbt
+      # 4️⃣ DBT Profile Configuration
       - name: Setup dbt profile
         run: |
           mkdir -p ~/.dbt
           printf "%s" "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
 
-      # 4.1️⃣ Limpar cache do dbt
+      # 4.1️⃣ Cache clean DBT
       - name: Clean dbt target
         run: rm -rf dbt/snowflake_pipeline/target
 
-      # 5️⃣ Instalar dependências do dbt
+      # 5️⃣ Install dbt dependencies
       - name: Run dbt deps
         run: dbt deps
         working-directory: dbt/snowflake_pipeline
 
-      # 🔥 CI: validação do projeto
+      # 🔥 CI: Project Validation
       - name: Run dbt debug
         run: dbt debug
         working-directory: dbt/snowflake_pipeline
 
-      # 6️⃣ Build dos modelos antes dos testes
+      # 6️⃣ Build from models to marts
       - name: Run dbt models
         run: dbt run --target dev
         working-directory: dbt/snowflake_pipeline
 
-      # 7️⃣ Rodar os testes após os modelos existirem
+      # 7️⃣ Run tests after models are created
       - name: Run dbt tests
         run: dbt test --target dev
         working-directory: dbt/snowflake_pipeline
 
-      # 🚀 CD: deploy final (opcional, se você quiser separar da CI)
+      # 🚀 CD: End Deploy
       - name: Deploy to DEV
         run: dbt run --target dev
         working-directory: dbt/snowflake_pipeline
