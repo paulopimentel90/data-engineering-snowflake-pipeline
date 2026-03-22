@@ -76,10 +76,10 @@ models:
         tests:
           - not_null
 
-      - name: channel
-        description: "Transaction channel (ATM, Online)."
-        tests:
-          - not_null
+      # - name: channel
+      #   description: "Transaction channel (ATM, Online)."
+      #   tests:
+      #     - not_null
 
   # =========================
   # DIM CALENDAR
