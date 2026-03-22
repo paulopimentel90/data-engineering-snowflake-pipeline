@@ -1,0 +1,176 @@
+version: 2
+
+models:
+
+  # =========================
+  # DIM CUSTOMER
+  # =========================
+  - name: dim_customer
+    description: "Customer dimension containing demographic attributes."
+
+    columns:
+      - name: customer_key
+        description: "Surrogate key generated from account_id."
+        tests:
+          - not_null
+          - unique
+
+      - name: account_id
+        description: "Unique identifier of the bank account."
+
+      - name: customer_age
+        description: "Age of the customer."
+
+      - name: customer_occupation
+        description: "Occupation of the customer."
+
+  # =========================
+  # DIM MERCHANT
+  # =========================
+  - name: dim_merchant
+    description: "Merchant dimension."
+
+    columns:
+      - name: merchant_key
+        tests:
+          - not_null
+          - unique
+
+      - name: merchant_id
+        description: "Unique merchant identifier."
+
+  # =========================
+  # DIM DEVICE
+  # =========================
+  - name: dim_device
+    description: "Device dimension."
+
+    columns:
+      - name: device_key
+        tests:
+          - not_null
+          - unique
+
+      - name: device_id
+        description: "Device identifier."
+
+  # =========================
+  # DIM LOCATION
+  # =========================
+  - name: dim_location
+    description: "Location dimension."
+
+    columns:
+      - name: location_key
+        tests:
+          - not_null
+          - unique
+
+      - name: city
+        description: "City where transaction occurred."
+
+  # =========================
+  # DIM CHANNEL
+  # =========================
+  - name: dim_channel
+    description: "Transaction channel dimension."
+
+    columns:
+      - name: channel_key
+        tests:
+          - not_null
+          - unique
+
+      - name: channel
+        description: "Transaction channel (ATM, Online)."
+        tests:
+          - accepted_values:
+              values: ['ATM', 'Online']
+
+  # =========================
+  # DIM CALENDAR
+  # =========================
+  - name: dim_calendar
+    description: "Date dimension used for time-based analysis."
+
+    columns:
+      - name: date_key
+        tests:
+          - not_null
+          - unique
+
+      - name: date
+        description: "Calendar date."
+
+  # =========================
+  # FACT TRANSACTIONS
+  # =========================
+  - name: fact_transactions
+    description: |
+      Fact table containing transactional metrics enriched with dimensional keys.
+      Supports analytics such as customer behavior, transaction trends, and fraud detection.
+
+    columns:
+
+      # PRIMARY KEY
+      - name: transaction_id
+        description: "Unique transaction identifier."
+        tests:
+          - not_null
+          - unique
+
+      # FOREIGN KEYS
+      - name: customer_key
+        description: "Foreign key to dim_customer."
+        tests:
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_key
+
+      - name: merchant_key
+        description: "Foreign key to dim_merchant."
+        tests:
+          - relationships:
+              to: ref('dim_merchant')
+              field: merchant_key
+
+      - name: device_key
+        description: "Foreign key to dim_device."
+        tests:
+          - relationships:
+              to: ref('dim_device')
+              field: device_key
+
+      - name: location_key
+        description: "Foreign key to dim_location."
+        tests:
+          - relationships:
+              to: ref('dim_location')
+              field: location_key
+
+      - name: channel_key
+        description: "Foreign key to dim_channel."
+        tests:
+          - relationships:
+              to: ref('dim_channel')
+              field: channel_key
+
+      - name: date_id
+        description: "Foreign key to dim_calendar (YYYYMMDD format)."
+        tests:
+          - relationships:
+              to: ref('dim_calendar')
+              field: date_key
+
+      # METRICS
+      - name: transaction_amount
+        description: "Transaction amount."
+
+      - name: transaction_duration
+        description: "Transaction duration in seconds."
+
+      - name: login_attempts
+        description: "Number of login attempts."
+
+      - name: account_balance
+        description: "Account balance at the time of transaction."

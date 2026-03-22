@@ -1,3 +1,11 @@
+# =========================
+# dbt (ESSENCIAL)
+# =========================
+target/
+dbt_packages/
+dbt_modules/
+logs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

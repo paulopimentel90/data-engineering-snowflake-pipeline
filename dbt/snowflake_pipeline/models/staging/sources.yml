@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw
+    database: KAGGLE_DB
+    schema: RAW
+    tables:
+      - name: BANK_TRANSACTIONS
+        description: "Raw bank transactions stored as VARIANT from S3 parquet."
+        columns:
+          - name: raw_data
+            description: "Semi-structured transaction payload in VARIANT format."
+          - name: filename
+            description: "Source file name from S3."
+          - name: created_at
+            description: "Ingestion timestamp."

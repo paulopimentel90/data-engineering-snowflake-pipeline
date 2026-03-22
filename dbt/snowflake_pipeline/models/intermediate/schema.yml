@@ -1,0 +1,69 @@
+version: 2
+
+models:
+  - name: int_transactions
+    description: "Cleaned and filtered bank transactions derived from raw VARIANT data."
+
+    columns:
+
+      - name: transaction_id
+        description: "Unique identifier for the transaction."
+        tests:
+          - not_null
+
+      - name: account_id
+        description: "Unique identifier for the bank account associated with the transaction."
+        tests:
+          - not_null
+
+      - name: transaction_amount
+        description: "Amount of the transaction."
+        tests:
+          - not_null
+
+      - name: transaction_date
+        description: "Date and time of the transaction."
+
+      - name: transaction_type
+        description: "Type of transaction (Debit/Credit)."
+
+      - name: location
+        description: "City where the transaction happened."
+
+      - name: device_id
+        description: "Identifier of the device used for the transaction."
+
+      - name: ip_address
+        description: "IP address of the transaction."
+
+      - name: merchant_id
+        description: "Merchant identifier for the transaction."
+
+      - name: channel
+        description: "Transaction channel (ATM / Online)."
+        tests:
+          - accepted_values:
+              values: ['ATM', 'Online']
+
+      - name: customer_age
+        description: "Age of the customer at the time of the transaction."
+
+      - name: customer_occupation
+        description: "Occupation of the customer."
+
+      - name: transaction_duration
+        description: "Duration of the transaction in seconds."
+
+      - name: login_attempts
+        description: "Number of login attempts made by the customer."
+
+      - name: account_balance
+        description: "Balance of the bank account."
+
+      - name: filename
+        description: "Source file name from S3 ingestion."
+
+      - name: created_at
+        description: "Timestamp when the record was ingested."
+        tests:
+          - not_null
